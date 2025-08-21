@@ -106,8 +106,10 @@ export default function EventsPage() {
 
   return (
     <div className="flex h-screen bg-gradient-to-br from-black via-[#1a1a1a] to-[#2b2b2b] text-white">
-      {/* Sidebar stays fixed */}
-      <Sidebar />
+      {/* Sidebar stays fixed on the left */}
+      <div className="w-64 flex-shrink-0 h-screen sticky top-0">
+        <Sidebar />
+      </div>
 
       {/* Main content scrolls only */}
       <main className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-10">
@@ -115,7 +117,9 @@ export default function EventsPage() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="max-w-4xl mx-auto bg-[#1a1110]/90 backdrop-blur-lg rounded-2xl shadow-2xl border border-[#242124] p-4 sm:p-6 md:p-8"
+          className="max-w-4xl mx-auto bg-[#1a1110]/90 backdrop-blur-lg 
+                     rounded-2xl shadow-2xl border border-[#242124] 
+                     p-4 sm:p-6 md:p-8"
         >
           {/* Page Title */}
           <h1 className="text-xl sm:text-2xl font-bold mb-6 flex items-center gap-2 text-white">
@@ -130,7 +134,9 @@ export default function EventsPage() {
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3 }}
-                className="p-4 sm:p-6 border border-[#242124] rounded-xl shadow-md bg-[#242124]/60 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+                className="p-4 sm:p-6 border border-[#242124] rounded-xl 
+                           shadow-md bg-[#242124]/60 flex flex-col 
+                           sm:flex-row sm:items-center justify-between gap-4"
               >
                 {/* Event Info */}
                 <div className="flex-1">
@@ -177,7 +183,10 @@ export default function EventsPage() {
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       onClick={() => handleCancel(ev.id)}
-                      className="px-3 md:px-4 py-2 rounded-lg text-sm md:text-base bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white shadow-md"
+                      className="px-3 md:px-4 py-2 rounded-lg text-sm md:text-base 
+                                 bg-gradient-to-r from-red-600 to-red-500 
+                                 hover:from-red-500 hover:to-red-400 
+                                 text-white shadow-md"
                     >
                       Cancel
                     </motion.button>
