@@ -61,20 +61,20 @@ export default function ChatPage() {
   };
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-black via-[#1a1a1a] to-[#2b2b2b] text-white">
+    <div className="flex h-screen bg-gradient-to-br from-black via-[#1a1a1a] to-[#2b2b2b] text-white">
       {/* Sidebar */}
       <div className="hidden md:block">
         <Sidebar />
       </div>
 
       {/* Main Chat Section */}
-      <main className="flex-1 flex flex-col p-4 sm:p-6 md:p-10">
-        {/* Header */}
+      <main className="flex-1 flex flex-col h-full p-4 sm:p-6 md:p-10">
+        {/* Header (fixed at top of chat area) */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="flex items-center gap-2 mb-4 sm:mb-6"
+          className="flex-none flex items-center gap-2 mb-4 sm:mb-6"
         >
           <MessageSquare className="w-6 h-6 text-gray-300" />
           <h1 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-gray-200 to-gray-400 bg-clip-text text-transparent">
@@ -82,7 +82,7 @@ export default function ChatPage() {
           </h1>
         </motion.div>
 
-        {/* Messages */}
+        {/* Messages (scrollable area) */}
         <div className="flex-1 overflow-y-auto space-y-4 p-4 bg-[#1a1110]/80 rounded-2xl border border-[#242124] shadow-lg">
           {messages.map((msg) => {
             const isOwnMessage = msg.uid === user?.uid;
@@ -99,7 +99,7 @@ export default function ChatPage() {
                   isOwnMessage ? "justify-end" : "justify-start"
                 }`}
               >
-                {/* Avatar left (other users) */}
+                {/* Avatar left */}
                 {!isOwnMessage && (
                   <div className="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center text-sm font-bold text-gray-200 overflow-hidden">
                     {msg.photoURL ? (
@@ -128,7 +128,7 @@ export default function ChatPage() {
                   <p className="text-sm">{msg.text}</p>
                 </div>
 
-                {/* Avatar right (own messages) */}
+                {/* Avatar right */}
                 {isOwnMessage && (
                   <div className="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center text-sm font-bold text-gray-200 overflow-hidden">
                     {msg.photoURL ? (
@@ -155,10 +155,10 @@ export default function ChatPage() {
           <div ref={messagesEndRef} />
         </div>
 
-        {/* Input Box (fixed at bottom) */}
+        {/* Input Box pinned at bottom */}
         <form
           onSubmit={sendMessage}
-          className="mt-4 flex items-center gap-3 bg-[#1a1110]/90 p-3 rounded-2xl border border-[#242124]"
+          className="flex-none mt-4 flex items-center gap-3 bg-[#1a1110]/90 p-3 rounded-2xl border border-[#242124]"
         >
           <input
             type="text"
