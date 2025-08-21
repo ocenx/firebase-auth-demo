@@ -4,14 +4,14 @@ import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getDatabase } from "firebase/database";
 
-// ✅ Include databaseURL for Realtime DB
+// ✅ Use environment variables
 const firebaseConfig = {
-  apiKey: "AIzaSyCSE8WFB4UzjAzcUgXJkcf0bIIbcbiNOvU",
-  authDomain: "osyanpark-66bd5.firebaseapp.com",
-  projectId: "osyanpark-66bd5",
-  messagingSenderId: "762648517914",
-  appId: "1:762648517914:web:dcafc4d0cab2b09cdaa0a3",
-  databaseURL: "https://osyanpark-66bd5-default-rtdb.asia-southeast1.firebasedatabase.app",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  databaseURL: import.meta.env.VITE_FIREBASE_DATABASE_URL,
 };
 
 // Initialize Firebase
@@ -19,5 +19,5 @@ const app = initializeApp(firebaseConfig);
 
 // Services
 export const auth = getAuth(app);
-export const db = getFirestore(app);      // restore original name
+export const db = getFirestore(app);
 export const realtimeDb = getDatabase(app);

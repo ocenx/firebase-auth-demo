@@ -1,3 +1,4 @@
+/// src/pages/FeedbackPage.tsx
 import { useEffect, useState } from "react";
 import {
   collection,
@@ -94,8 +95,6 @@ export default function FeedbackPage() {
     setComment("");
     setEditing(false);
   };
-
-  const myFeedback = feedbacks.find((f) => f.userId === user?.uid);
 
   return (
     <div className="flex min-h-screen bg-[#121212] text-white">
@@ -247,4 +246,3 @@ export default function FeedbackPage() {
     </div>
   );
 }
-    

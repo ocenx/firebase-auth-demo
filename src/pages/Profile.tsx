@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import { updateProfile } from "firebase/auth";
-import { auth, db } from "../firebase";
+import { auth } from "../firebase";
 import { useNavigate } from "react-router-dom";
-import { collection, onSnapshot, query, orderBy } from "firebase/firestore";
 import { motion } from "framer-motion";
 import { Save } from "lucide-react";
 import Sidebar from "../components/Sidebar";
@@ -13,7 +12,6 @@ export default function Profile() {
   const [name, setName] = useState(user?.displayName || "");
   const [avatar, setAvatar] = useState<File | null>(null);
   const [preview, setPreview] = useState(user?.photoURL || "");
-  const [notifCount, setNotifCount] = useState(0);
   const navigate = useNavigate();
 
   // 🚀 Redirect admins straight to dashboard
@@ -22,23 +20,6 @@ export default function Profile() {
       navigate("/admin");
     }
   }, [user, navigate]);
-
-  // 🔔 Listen to only UNREAD notifications
-  useEffect(() => {
-    if (!user) return;
-    const q = query(collection(db, "notifications"), orderBy("createdAt", "desc"));
-    const unsub = onSnapshot(q, (snap) => {
-      let count = 0;
-      snap.forEach((doc) => {
-        const data = doc.data();
-        if (!data.readBy || !data.readBy.includes(user.uid)) {
-          count++;
-        }
-      });
-      setNotifCount(count);
-    });
-    return () => unsub();
-  }, [user]);
 
   // ✅ Update profile info + avatar
   const handleUpload = async () => {

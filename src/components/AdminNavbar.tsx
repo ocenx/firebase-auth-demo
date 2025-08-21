@@ -4,7 +4,6 @@ import {
   LayoutDashboard,
   Package,
   Bell,
-  FileText,
   Users,
   MessageSquare,
   LogOut,
@@ -43,7 +42,6 @@ export default function AdminNavbar() {
         >
           <Bell size={20} /> Notifications
         </Link>
-       
         <Link
           to="/admin/events"
           className="flex items-center gap-3 text-gray-300 hover:text-white"
