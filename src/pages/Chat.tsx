@@ -68,7 +68,7 @@ export default function ChatPage() {
       </div>
 
       {/* Main Chat Section */}
-      <main className="flex-1 flex flex-col h-full p-4 sm:p-6 md:p-10">
+      <main className="flex-1 flex flex-col h-screen p-4 sm:p-6 md:p-10">
         {/* Header (fixed at top of chat area) */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
