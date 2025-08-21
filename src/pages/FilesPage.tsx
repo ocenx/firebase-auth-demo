@@ -89,10 +89,8 @@ export default function FilesPage() {
 
   return (
     <div className="flex min-h-screen bg-gradient-to-br from-black via-[#1a1a1a] to-[#2b2b2b] text-white">
-      {/* Sidebar: hidden on small screens */}
-      <div className="hidden md:block">
-        <Sidebar />
-      </div>
+      {/* Sidebar (always visible like ProductsPage) */}
+      <Sidebar />
 
       {/* Main */}
       <main className="flex-1 p-4 sm:p-6 md:p-10 overflow-y-auto">

@@ -65,20 +65,20 @@ export default function Profile() {
 
   return (
     <div className="flex min-h-screen bg-gradient-to-br from-black via-[#1a1a1a] to-[#2b2b2b] text-white">
-      {/* Sidebar (hidden on mobile, visible on md+) */}
+      {/* Sidebar (hidden on small screens) */}
       <div className="hidden md:block">
         <Sidebar />
       </div>
 
       {/* Profile Content */}
-      <main className="flex-1 p-4 sm:p-6 md:p-8 flex justify-center items-center overflow-y-auto">
+      <main className="flex-1 p-4 sm:p-6 md:p-10 flex justify-center items-center overflow-y-auto">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl bg-[#1a1110]/90 
-                     backdrop-blur-lg rounded-2xl shadow-2xl border border-[#242124] 
-                     p-5 sm:p-6 md:p-8 flex flex-col items-center"
+          className="w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl 
+                     bg-[#1a1110]/90 backdrop-blur-lg rounded-2xl shadow-2xl 
+                     border border-[#242124] p-5 sm:p-6 md:p-8 flex flex-col items-center"
         >
           {/* Avatar */}
           {preview ? (
@@ -91,10 +91,10 @@ export default function Profile() {
           ) : (
             <div
               className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 
-                         rounded-full border-4 border-[#353839] shadow-lg mb-4 flex 
-                         items-center justify-center bg-gradient-to-br 
-                         from-blue-500 to-purple-600 text-white 
-                         text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold"
+                         rounded-full border-4 border-[#353839] shadow-lg mb-4 
+                         flex items-center justify-center 
+                         bg-gradient-to-br from-blue-500 to-purple-600 
+                         text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold"
             >
               {avatarInitial}
             </div>
@@ -133,6 +133,7 @@ export default function Profile() {
             <Save size={18} /> Save Profile
           </motion.button>
 
+          {/* User Info */}
           <p className="text-xs sm:text-sm md:text-base text-gray-400 mt-6 text-center">
             Logged in as <span className="font-semibold">{user?.email}</span>
           </p>

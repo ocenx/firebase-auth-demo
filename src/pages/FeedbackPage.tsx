@@ -1,4 +1,4 @@
-/// src/pages/FeedbackPage.tsx
+// src/pages/FeedbackPage.tsx
 import { useEffect, useState } from "react";
 import {
   collection,
@@ -48,6 +48,7 @@ export default function FeedbackPage() {
       });
       setFeedbacks(list);
 
+      // ✅ Compute average rating
       if (list.length > 0) {
         const avg =
           list.reduce((sum, f) => sum + (f.rating || 0), 0) / list.length;
@@ -97,15 +98,15 @@ export default function FeedbackPage() {
   };
 
   return (
-    <div className="flex min-h-screen bg-[#121212] text-white">
-      {/* Sidebar (hidden on small screens, visible on md+) */}
+    <div className="flex min-h-screen bg-gradient-to-br from-black via-[#1a1a1a] to-[#2b2b2b] text-white">
+      {/* Sidebar (hidden on small screens) */}
       <div className="hidden md:block">
         <Sidebar />
       </div>
 
-      {/* Main content */}
+      {/* Main Content */}
       <main className="flex-1 p-4 sm:p-6 md:p-8 overflow-y-auto">
-        {/* Page Title */}
+        {/* Page Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-2">
           <h1 className="text-xl sm:text-2xl font-bold flex items-center gap-2">
             <Star className="w-5 h-5 sm:w-6 sm:h-6 text-yellow-400" /> Feedback
@@ -118,8 +119,8 @@ export default function FeedbackPage() {
           )}
         </div>
 
-        {/* Average rating */}
-        <div className="mb-6 sm:mb-8 bg-[#1e1e1e] p-4 sm:p-6 rounded-xl shadow-md border border-gray-700">
+        {/* Average Rating */}
+        <div className="mb-6 sm:mb-8 bg-[#1e1e1e]/90 backdrop-blur-md p-4 sm:p-6 rounded-2xl shadow-xl border border-gray-700">
           <h2 className="text-lg sm:text-xl font-semibold mb-3">
             Average Rating
           </h2>
@@ -143,14 +144,16 @@ export default function FeedbackPage() {
           </div>
         </div>
 
-        {/* Feedback form */}
+        {/* Feedback Form */}
         <form
           onSubmit={handleSubmit}
-          className="mb-8 sm:mb-10 bg-[#1e1e1e] p-4 sm:p-6 rounded-xl shadow-md border border-gray-700"
+          className="mb-8 bg-[#1e1e1e]/90 backdrop-blur-md p-4 sm:p-6 rounded-2xl shadow-xl border border-gray-700"
         >
           <h2 className="text-lg sm:text-xl font-semibold mb-4">
             {editing ? "Edit Your Feedback" : "Leave Feedback"}
           </h2>
+
+          {/* Rating Stars */}
           <div className="flex gap-2 mb-4">
             {Array.from({ length: 5 }).map((_, i) => (
               <button
@@ -170,12 +173,16 @@ export default function FeedbackPage() {
               </button>
             ))}
           </div>
+
+          {/* Comment Box */}
           <textarea
             value={comment}
             onChange={(e) => setComment(e.target.value)}
             placeholder="Write your feedback..."
             className="w-full p-2 sm:p-3 rounded-lg bg-[#2a2a2a] border border-gray-600 text-white focus:ring-2 focus:ring-blue-500 mb-4 text-sm sm:text-base"
           />
+
+          {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-3">
             <button
               type="submit"
@@ -187,7 +194,7 @@ export default function FeedbackPage() {
               <button
                 type="button"
                 onClick={handleDelete}
-                className="flex-1 bg-red-600 hover:bg-red-700 text-white px-4 sm:px-6 py-2 rounded-lg shadow-md transition-all flex items-center justify-center gap-1 text-sm sm:text-base"
+                className="flex-1 bg-red-600 hover:bg-red-700 text-white px-4 sm:px-6 py-2 rounded-lg shadow-md flex items-center justify-center gap-1 text-sm sm:text-base"
               >
                 <Trash2 size={16} /> Delete
               </button>
@@ -195,7 +202,7 @@ export default function FeedbackPage() {
           </div>
         </form>
 
-        {/* Feedback list */}
+        {/* Feedback List */}
         <div className="space-y-4">
           <h2 className="text-lg sm:text-xl font-semibold mb-2">
             User Feedback
@@ -211,6 +218,7 @@ export default function FeedbackPage() {
                 className="p-3 sm:p-4 bg-[#1a1a1a] rounded-xl border border-gray-700 shadow-md"
               >
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                  {/* Stars */}
                   <div className="flex items-center gap-2 mb-2 sm:mb-0">
                     {Array.from({ length: 5 }).map((_, i) => (
                       <Star
@@ -224,6 +232,8 @@ export default function FeedbackPage() {
                       />
                     ))}
                   </div>
+
+                  {/* Edit/Delete for owner */}
                   {user?.uid === f.userId && (
                     <div className="flex gap-2">
                       <button
@@ -241,10 +251,12 @@ export default function FeedbackPage() {
                     </div>
                   )}
                 </div>
-                <p className="text-gray-300 text-sm sm:text-base">
+
+                {/* Comment */}
+                <p className="text-gray-300 text-sm sm:text-base mt-2">
                   {f.comment || "No comment"}
                 </p>
-                <p className="text-xs text-gray-500 mt-2">
+                <p className="text-xs text-gray-500 mt-1">
                   {f.createdAt
                     ? f.createdAt.toDate().toLocaleString()
                     : "Just now"}
