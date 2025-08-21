@@ -47,7 +47,6 @@ export default function FilesPage() {
       const xhr = new XMLHttpRequest();
       xhr.open("POST", "https://api.cloudinary.com/v1_1/demghzhem/upload");
 
-      // Progress bar
       xhr.upload.onprogress = (event) => {
         if (event.lengthComputable) {
           const percent = Math.round((event.loaded * 100) / event.total);
@@ -59,7 +58,6 @@ export default function FilesPage() {
         if (xhr.status === 200) {
           const res = JSON.parse(xhr.responseText);
 
-          // Save file info to Firestore
           await addDoc(collection(db, "files"), {
             uid: user.uid,
             fileName: file.name,
@@ -88,12 +86,14 @@ export default function FilesPage() {
   };
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-black via-[#1a1a1a] to-[#2b2b2b] text-white">
-      {/* Sidebar (always visible like ProductsPage) */}
-      <Sidebar />
+    <div className="h-screen flex bg-gradient-to-br from-black via-[#1a1a1a] to-[#2b2b2b] text-white">
+      {/* Sidebar fixed */}
+      <div className="fixed top-0 left-0 h-full w-64">
+        <Sidebar />
+      </div>
 
-      {/* Main */}
-      <main className="flex-1 p-4 sm:p-6 md:p-10 overflow-y-auto">
+      {/* Main scrollable content */}
+      <main className="ml-64 flex-1 overflow-y-auto p-4 sm:p-6 md:p-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}

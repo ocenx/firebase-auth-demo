@@ -69,12 +69,14 @@ const BlogPage: React.FC = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-black via-[#1a1a1a] to-[#2b2b2b] text-white">
-      {/* Sidebar */}
-      <Sidebar />
+    <div className="flex h-screen bg-gradient-to-br from-black via-[#1a1a1a] to-[#2b2b2b] text-white">
+      {/* Sidebar (fixed, full height) */}
+      <div className="hidden md:block w-64 flex-shrink-0 border-r border-[#242124]">
+        <Sidebar />
+      </div>
 
-      {/* Main content */}
-      <main className="flex-1 p-4 sm:p-6 md:p-10 overflow-y-auto">
+      {/* Main content (scrollable) */}
+      <main className="flex-1 h-screen overflow-y-auto p-4 sm:p-6 md:p-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}

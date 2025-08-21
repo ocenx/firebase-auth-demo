@@ -105,94 +105,94 @@ export default function EventsPage() {
   };
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-black via-[#1a1a1a] to-[#2b2b2b] text-white">
-      {/* Sidebar */}
+    <div className="flex h-screen bg-gradient-to-br from-black via-[#1a1a1a] to-[#2b2b2b] text-white">
+      {/* Sidebar stays fixed */}
       <Sidebar />
 
-      {/* Main Section */}
-      <main className="flex-1 flex flex-col p-4 md:p-6 overflow-y-auto">
-        {/* Header */}
+      {/* Main content scrolls only */}
+      <main className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-10">
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="flex items-center gap-2 mb-6"
+          transition={{ duration: 0.6 }}
+          className="max-w-4xl mx-auto bg-[#1a1110]/90 backdrop-blur-lg rounded-2xl shadow-2xl border border-[#242124] p-4 sm:p-6 md:p-8"
         >
-          <CalendarDays className="w-6 h-6 text-gray-300" />
-          <h1 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-gray-200 to-gray-400 bg-clip-text text-transparent">
-            Events
+          {/* Page Title */}
+          <h1 className="text-xl sm:text-2xl font-bold mb-6 flex items-center gap-2 text-white">
+            <CalendarDays className="w-5 h-5 sm:w-6 sm:h-6 text-white" /> Events
           </h1>
-        </motion.div>
 
-        {/* Events List */}
-        <div className="space-y-4">
-          {events.map((ev) => (
-            <motion.div
-              key={ev.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="p-4 md:p-5 rounded-2xl bg-[#1a1110]/80 border border-[#242124] shadow-lg flex flex-col md:flex-row md:items-center justify-between gap-4"
-            >
-              {/* Event Info */}
-              <div className="flex-1">
-                <h2 className="text-base md:text-lg font-semibold text-gray-100">
-                  {ev.title}
-                </h2>
-                <p className="text-sm md:text-base text-gray-400">
-                  {ev.description}
-                </p>
-                <div className="flex flex-wrap items-center gap-3 mt-2">
-                  <span className="flex items-center gap-1 text-xs md:text-sm text-gray-500">
-                    <Calendar className="w-4 h-4" /> {ev.date}
-                  </span>
-                  <span
-                    className={`flex items-center gap-1 px-2 py-1 text-xs md:text-sm rounded-full font-medium ${
-                      ev.slots > 0
-                        ? "bg-green-600/80 text-white"
-                        : "bg-red-600/80 text-white"
-                    }`}
-                  >
-                    <Users className="w-4 h-4" /> {ev.slots} slots
-                  </span>
+          {/* Events List */}
+          <div className="space-y-6">
+            {events.map((ev) => (
+              <motion.div
+                key={ev.id}
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+                className="p-4 sm:p-6 border border-[#242124] rounded-xl shadow-md bg-[#242124]/60 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+              >
+                {/* Event Info */}
+                <div className="flex-1">
+                  <h2 className="font-bold text-lg sm:text-xl text-white mb-1">
+                    {ev.title}
+                  </h2>
+                  <p className="text-gray-300 text-sm sm:text-base">
+                    {ev.description}
+                  </p>
+                  <div className="flex flex-wrap items-center gap-3 mt-2">
+                    <span className="flex items-center gap-1 text-xs sm:text-sm text-gray-500">
+                      <Calendar className="w-4 h-4" /> {ev.date}
+                    </span>
+                    <span
+                      className={`flex items-center gap-1 px-2 py-1 text-xs sm:text-sm rounded-full font-medium ${
+                        ev.slots > 0
+                          ? "bg-green-600/80 text-white"
+                          : "bg-red-600/80 text-white"
+                      }`}
+                    >
+                      <Users className="w-4 h-4" /> {ev.slots} slots
+                    </span>
+                  </div>
                 </div>
-              </div>
 
-              {/* Action Buttons */}
-              <div className="flex gap-2">
-                {!bookings[ev.id] ? (
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={() => handleBook(ev.id)}
-                    disabled={ev.slots <= 0}
-                    className={`px-3 md:px-4 py-2 rounded-lg text-sm md:text-base text-white shadow-md transition ${
-                      ev.slots <= 0
-                        ? "bg-gray-600 cursor-not-allowed"
-                        : "bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400"
-                    }`}
-                  >
-                    {ev.slots > 0 ? "Book" : "Full"}
-                  </motion.button>
-                ) : (
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={() => handleCancel(ev.id)}
-                    className="px-3 md:px-4 py-2 rounded-lg text-sm md:text-base bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white shadow-md"
-                  >
-                    Cancel
-                  </motion.button>
-                )}
-              </div>
-            </motion.div>
-          ))}
+                {/* Action Buttons */}
+                <div className="flex gap-2">
+                  {!bookings[ev.id] ? (
+                    <motion.button
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={() => handleBook(ev.id)}
+                      disabled={ev.slots <= 0}
+                      className={`px-3 md:px-4 py-2 rounded-lg text-sm md:text-base text-white shadow-md transition ${
+                        ev.slots <= 0
+                          ? "bg-gray-600 cursor-not-allowed"
+                          : "bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400"
+                      }`}
+                    >
+                      {ev.slots > 0 ? "Book" : "Full"}
+                    </motion.button>
+                  ) : (
+                    <motion.button
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={() => handleCancel(ev.id)}
+                      className="px-3 md:px-4 py-2 rounded-lg text-sm md:text-base bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white shadow-md"
+                    >
+                      Cancel
+                    </motion.button>
+                  )}
+                </div>
+              </motion.div>
+            ))}
 
-          {events.length === 0 && (
-            <p className="text-gray-500 text-center text-sm md:text-base">
-              No events available right now...
-            </p>
-          )}
-        </div>
+            {events.length === 0 && (
+              <p className="text-gray-500 text-center text-sm sm:text-base">
+                No events available right now...
+              </p>
+            )}
+          </div>
+        </motion.div>
       </main>
     </div>
   );
