@@ -35,7 +35,6 @@ export default function ChatPage() {
     return () => unsubscribe();
   }, [roomId]);
 
-  // 🔽 Auto-scroll to bottom when messages update
   useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
@@ -63,19 +62,19 @@ export default function ChatPage() {
 
   return (
     <div className="flex min-h-screen bg-gradient-to-br from-black via-[#1a1a1a] to-[#2b2b2b] text-white">
-      {/* Sidebar (hidden on small screens) */}
+      {/* Sidebar */}
       <div className="hidden md:block">
         <Sidebar />
       </div>
 
       {/* Main Chat Section */}
-      <main className="flex-1 flex flex-col p-4 sm:p-6 md:p-10 overflow-y-auto">
+      <main className="flex-1 flex flex-col p-4 sm:p-6 md:p-10">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="flex items-center gap-2 mb-6"
+          className="flex items-center gap-2 mb-4 sm:mb-6"
         >
           <MessageSquare className="w-6 h-6 text-gray-300" />
           <h1 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-gray-200 to-gray-400 bg-clip-text text-transparent">
@@ -123,7 +122,9 @@ export default function ChatPage() {
                       : "bg-[#242124]/70 text-gray-200"
                   }`}
                 >
-                  <p className="text-xs font-semibold mb-1">{msg.displayName}</p>
+                  <p className="text-xs font-semibold mb-1">
+                    {msg.displayName}
+                  </p>
                   <p className="text-sm">{msg.text}</p>
                 </div>
 
@@ -154,7 +155,7 @@ export default function ChatPage() {
           <div ref={messagesEndRef} />
         </div>
 
-        {/* Input Box */}
+        {/* Input Box (fixed at bottom) */}
         <form
           onSubmit={sendMessage}
           className="mt-4 flex items-center gap-3 bg-[#1a1110]/90 p-3 rounded-2xl border border-[#242124]"
