@@ -80,18 +80,20 @@ const MyPostsPage: React.FC = () => {
 
   return (
     <div className="flex min-h-screen bg-gradient-to-br from-black via-[#1a1a1a] to-[#2b2b2b] text-white">
+      {/* Sidebar */}
       <Sidebar />
 
-      <main className="flex-1 p-10 overflow-y-auto">
+      {/* Main content */}
+      <main className="flex-1 p-4 sm:p-6 md:p-10 overflow-y-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="max-w-4xl mx-auto bg-[#1a1110]/90 backdrop-blur-lg rounded-2xl shadow-2xl border border-[#242124] p-8"
+          className="w-full max-w-4xl mx-auto bg-[#1a1110]/90 backdrop-blur-lg rounded-2xl shadow-2xl border border-[#242124] p-4 sm:p-6 md:p-8"
         >
           {/* Page Title */}
-          <h1 className="text-2xl font-bold mb-6 flex items-center gap-2 text-white">
-            <NotebookPen className="w-6 h-6 text-white" /> My Posts
+          <h1 className="text-xl sm:text-2xl font-bold mb-6 flex items-center gap-2 text-white">
+            <NotebookPen className="w-5 h-5 sm:w-6 sm:h-6 text-white" /> My Posts
           </h1>
 
           {/* Edit Form (only shows when editing) */}
@@ -114,10 +116,10 @@ const MyPostsPage: React.FC = () => {
                 onChange={(e) => setContent(e.target.value)}
                 required
               />
-              <div className="flex gap-2">
+              <div className="flex flex-col sm:flex-row gap-2">
                 <button
                   type="submit"
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition"
+                  className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition"
                 >
                   Update Post
                 </button>
@@ -128,7 +130,7 @@ const MyPostsPage: React.FC = () => {
                     setTitle("");
                     setContent("");
                   }}
-                  className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg transition"
+                  className="flex-1 bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg transition"
                 >
                   Cancel
                 </button>
@@ -138,7 +140,9 @@ const MyPostsPage: React.FC = () => {
 
           {/* Posts List */}
           {posts.length === 0 ? (
-            <p className="text-gray-400">You haven’t created any posts yet.</p>
+            <p className="text-gray-400 text-center sm:text-left">
+              You haven’t created any posts yet.
+            </p>
           ) : (
             <div className="space-y-6">
               {posts.map((post) => (
@@ -147,18 +151,20 @@ const MyPostsPage: React.FC = () => {
                   initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3 }}
-                  className="p-6 border border-[#242124] rounded-xl shadow-md bg-[#242124]/60"
+                  className="p-4 sm:p-6 border border-[#242124] rounded-xl shadow-md bg-[#242124]/60"
                 >
-                  <h2 className="font-bold text-xl text-white mb-2">
+                  <h2 className="font-bold text-lg sm:text-xl text-white mb-2">
                     {post.title}
                   </h2>
-                  <p className="text-gray-300">{post.content}</p>
+                  <p className="text-gray-300 whitespace-pre-line break-words">
+                    {post.content}
+                  </p>
                   <p className="text-xs text-gray-500 mt-3">
                     By: {post.authorEmail ?? "Unknown"} •{" "}
                     {post.createdAt?.toDate().toLocaleString()}
                   </p>
 
-                  <div className="flex gap-2 mt-4">
+                  <div className="flex flex-col sm:flex-row gap-2 mt-4">
                     <button
                       onClick={() => handleEdit(post)}
                       className="text-sm bg-yellow-500 hover:bg-yellow-600 px-3 py-1 rounded text-black transition"

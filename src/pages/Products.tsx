@@ -52,7 +52,6 @@ export default function ProductsPage() {
         ...doc.data(),
       }));
 
-      // ✅ Prevent duplicates by filtering out already-added products
       setProducts((prev) => {
         const existingIds = new Set(prev.map((p) => p.id));
         const filtered = newProducts.filter((p) => !existingIds.has(p.id));
@@ -104,8 +103,7 @@ export default function ProductsPage() {
   // ✅ Infinite scroll listener
   const handleScroll = useCallback(() => {
     if (
-      window.innerHeight + window.scrollY >=
-        document.body.offsetHeight - 200 &&
+      window.innerHeight + window.scrollY >= document.body.offsetHeight - 200 &&
       !isFetchingMore &&
       hasMore.current
     ) {
@@ -124,15 +122,15 @@ export default function ProductsPage() {
       <Sidebar />
 
       {/* Main content */}
-      <main className="flex-1 p-10 overflow-y-auto">
+      <main className="flex-1 p-4 sm:p-6 md:p-10 overflow-y-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="max-w-6xl mx-auto bg-[#1a1110]/90 backdrop-blur-lg rounded-2xl shadow-2xl border border-[#242124] p-8"
+          className="max-w-6xl mx-auto bg-[#1a1110]/90 backdrop-blur-lg rounded-2xl shadow-2xl border border-[#242124] p-6 sm:p-8"
         >
           {/* Page title */}
-          <h1 className="text-2xl font-bold mb-6 flex items-center gap-2 text-white">
+          <h1 className="text-xl sm:text-2xl font-bold mb-6 flex items-center gap-2 text-white">
             <ShoppingBag className="w-6 h-6 text-white" /> Products
           </h1>
 
@@ -142,9 +140,9 @@ export default function ProductsPage() {
               {[...Array(6)].map((_, i) => (
                 <div
                   key={i}
-                  className="p-4 border border-[#242124] rounded-xl shadow-md bg-[#242124]/60 min-h-[320px] animate-pulse flex flex-col"
+                  className="p-4 border border-[#242124] rounded-xl shadow-md bg-[#242124]/60 min-h-[280px] animate-pulse flex flex-col"
                 >
-                  <div className="w-full h-40 bg-gray-700 rounded-lg" />
+                  <div className="w-full h-32 sm:h-40 bg-gray-700 rounded-lg" />
                   <div className="mt-3 space-y-2 flex-1">
                     <div className="h-5 bg-gray-700 rounded w-3/4" />
                     <div className="h-4 bg-gray-700 rounded w-1/2" />
@@ -167,20 +165,20 @@ export default function ProductsPage() {
                     initial={{ opacity: 0, y: 15 }}
                     animate={{ opacity: 1, y: 0 }}
                     whileHover={{ scale: 1.02 }}
-                    className="relative group p-4 border border-[#242124] rounded-xl shadow-md bg-[#242124]/60 hover:border-gray-600 transition flex flex-col justify-between min-h-[320px]"
+                    className="relative group p-4 border border-[#242124] rounded-xl shadow-md bg-[#242124]/60 hover:border-gray-600 transition flex flex-col justify-between min-h-[280px] sm:min-h-[320px]"
                   >
                     {/* Product image */}
                     {p.imageUrl && (
                       <img
                         src={p.imageUrl}
                         alt={p.name}
-                        className="w-full h-40 object-cover rounded-lg"
+                        className="w-full h-32 sm:h-40 object-cover rounded-lg"
                       />
                     )}
 
                     {/* Product info */}
                     <div className="mt-3 flex-1 flex flex-col">
-                      <h3 className="font-bold text-lg text-white group-hover:text-blue-400 transition line-clamp-1">
+                      <h3 className="font-bold text-base sm:text-lg text-white group-hover:text-blue-400 transition line-clamp-1">
                         {p.name}
                       </h3>
                       <p className="text-gray-400 text-sm line-clamp-2">

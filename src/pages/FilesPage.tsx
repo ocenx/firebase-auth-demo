@@ -89,27 +89,31 @@ export default function FilesPage() {
 
   return (
     <div className="flex min-h-screen bg-gradient-to-br from-black via-[#1a1a1a] to-[#2b2b2b] text-white">
-      {/* Sidebar (reusable component) */}
-      <Sidebar />
+      {/* Sidebar: hidden on small screens */}
+      <div className="hidden md:block">
+        <Sidebar />
+      </div>
 
       {/* Main */}
-      <main className="flex-1 p-10 overflow-y-auto">
+      <main className="flex-1 p-4 sm:p-6 md:p-10 overflow-y-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="max-w-3xl mx-auto bg-[#1a1110]/90 backdrop-blur-lg rounded-2xl shadow-2xl border border-[#242124] p-8"
+          className="w-full max-w-md sm:max-w-lg md:max-w-3xl mx-auto 
+                     bg-[#1a1110]/90 backdrop-blur-lg rounded-2xl shadow-2xl 
+                     border border-[#242124] p-4 sm:p-6 md:p-8"
         >
           {/* Header */}
-          <h1 className="text-2xl font-bold mb-6 text-center bg-gradient-to-r from-gray-200 to-gray-400 bg-clip-text text-transparent">
+          <h1 className="text-lg sm:text-xl md:text-2xl font-bold mb-6 text-center bg-gradient-to-r from-gray-200 to-gray-400 bg-clip-text text-transparent">
             📂 File Uploads
           </h1>
 
           {/* Upload Box */}
           <div className="mb-6 flex flex-col items-center">
-            <label className="w-full cursor-pointer flex flex-col items-center justify-center p-6 border-2 border-dashed border-gray-600 rounded-lg hover:border-gray-400 transition">
-              <Upload size={32} className="mb-2 text-gray-400" />
-              <span className="text-gray-400">
+            <label className="w-full cursor-pointer flex flex-col items-center justify-center p-4 sm:p-6 border-2 border-dashed border-gray-600 rounded-lg hover:border-gray-400 transition text-center">
+              <Upload size={28} className="mb-2 text-gray-400" />
+              <span className="text-gray-400 text-sm sm:text-base truncate max-w-[90%]">
                 {file ? file.name : "Click to select a file"}
               </span>
               <input
@@ -124,7 +128,10 @@ export default function FilesPage() {
               whileTap={{ scale: 0.97 }}
               onClick={handleUpload}
               disabled={!file || uploading}
-              className="mt-4 px-6 py-2 rounded-lg bg-gradient-to-r from-[#242124] to-[#353839] shadow-md hover:shadow-lg transition disabled:opacity-50"
+              className="mt-4 px-4 sm:px-6 py-2 sm:py-3 rounded-lg 
+                         bg-gradient-to-r from-[#242124] to-[#353839] 
+                         shadow-md hover:shadow-lg transition 
+                         disabled:opacity-50 text-sm sm:text-base"
             >
               {uploading ? "Uploading..." : "Upload"}
             </motion.button>
@@ -142,27 +149,30 @@ export default function FilesPage() {
           )}
 
           {/* File List */}
-          <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
-  <FileText className="w-5 h-5 text-gray-300" />
-  Your Files
-</h2>
+          <h2 className="text-base sm:text-lg md:text-xl font-semibold mb-4 flex items-center gap-2">
+            <FileText className="w-5 h-5 text-gray-300" />
+            Your Files
+          </h2>
           <ul className="space-y-3">
             {files.map((f) => (
               <motion.li
                 key={f.id}
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="flex justify-between items-center bg-[#242124]/60 px-4 py-3 rounded-lg shadow-md"
+                className="flex flex-col sm:flex-row justify-between items-start sm:items-center 
+                           gap-3 sm:gap-0 bg-[#242124]/60 px-4 py-3 rounded-lg shadow-md"
               >
-                <div className="flex items-center gap-3">
-                  <FileIcon className="text-gray-400" size={20} />
-                  <span>{f.fileName}</span>
+                <div className="flex items-center gap-3 w-full sm:w-auto">
+                  <FileIcon className="text-gray-400 shrink-0" size={20} />
+                  <span className="text-sm sm:text-base break-words max-w-[80%] sm:max-w-none">
+                    {f.fileName}
+                  </span>
                 </div>
                 <a
                   href={f.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-1 text-blue-400 hover:text-blue-300 transition"
+                  className="flex items-center gap-1 text-blue-400 hover:text-blue-300 transition text-sm sm:text-base"
                 >
                   <Download size={16} /> Download
                 </a>
@@ -170,7 +180,7 @@ export default function FilesPage() {
             ))}
 
             {files.length === 0 && (
-              <p className="text-gray-400 text-center mt-6">
+              <p className="text-gray-400 text-center mt-6 text-sm sm:text-base">
                 No files uploaded yet. 📤
               </p>
             )}

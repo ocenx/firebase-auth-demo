@@ -63,25 +63,25 @@ export default function TodoPage() {
       <Sidebar />
 
       {/* Main Content */}
-      <main className="flex-1 p-10">
+      <main className="flex-1 p-3 sm:p-6 md:p-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="max-w-2xl mx-auto bg-[#1a1110]/90 backdrop-blur-lg rounded-2xl shadow-2xl border border-[#242124] p-8"
+          className="w-full max-w-2xl mx-auto bg-[#1a1110]/90 backdrop-blur-lg rounded-2xl shadow-2xl border border-[#242124] p-5 sm:p-8"
         >
           {/* Header */}
-          <h1 className="text-2xl font-bold mb-6 text-center bg-gradient-to-r from-gray-200 to-gray-400 bg-clip-text text-transparent">
+          <h1 className="text-lg sm:text-2xl font-bold mb-6 text-center bg-gradient-to-r from-gray-200 to-gray-400 bg-clip-text text-transparent">
             My To-Do List
           </h1>
 
-          {/* Input */}
-          <div className="flex gap-2 mb-6">
+          {/* Input Section */}
+          <div className="flex flex-col sm:flex-row gap-2 mb-6">
             <input
               type="text"
               placeholder="Enter a task..."
               className="flex-1 px-4 py-3 rounded-lg bg-[#242124] text-white placeholder-gray-400
-                       focus:outline-none focus:ring-2 focus:ring-[#353839] transition"
+                       focus:outline-none focus:ring-2 focus:ring-[#353839] transition text-sm sm:text-base"
               value={newTask}
               onChange={(e) => setNewTask(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && addTodo()}
@@ -90,14 +90,14 @@ export default function TodoPage() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.97 }}
               onClick={addTodo}
-              className="flex items-center gap-2 px-4 py-3 rounded-lg bg-gradient-to-r from-[#242124] to-[#353839] 
-                       shadow-md hover:shadow-lg transition"
+              className="flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-gradient-to-r from-[#242124] to-[#353839] 
+                       shadow-md hover:shadow-lg transition text-sm sm:text-base w-full sm:w-auto"
             >
               <Plus size={18} /> Add
             </motion.button>
           </div>
 
-          {/* List */}
+          {/* Todo List */}
           <ul className="space-y-3">
             {todos.map((todo) => (
               <motion.li
@@ -108,24 +108,24 @@ export default function TodoPage() {
               >
                 <div
                   onClick={() => toggleTodo(todo.id, todo.completed)}
-                  className="flex items-center gap-3 cursor-pointer select-none"
+                  className="flex items-center gap-3 cursor-pointer select-none flex-1 overflow-hidden"
                 >
                   {todo.completed ? (
-                    <CheckCircle className="text-green-400" size={20} />
+                    <CheckCircle className="text-green-400 flex-shrink-0" size={20} />
                   ) : (
-                    <Circle className="text-gray-500" size={20} />
+                    <Circle className="text-gray-500 flex-shrink-0" size={20} />
                   )}
                   <span
-                    className={`${
+                    className={`truncate ${
                       todo.completed ? "line-through text-gray-500" : "text-white"
-                    }`}
+                    } text-sm sm:text-base`}
                   >
                     {todo.text}
                   </span>
                 </div>
                 <button
                   onClick={() => deleteTodo(todo.id)}
-                  className="text-red-500 hover:text-red-700 transition"
+                  className="ml-3 text-red-500 hover:text-red-700 transition flex-shrink-0"
                 >
                   <Trash2 size={18} />
                 </button>
@@ -133,8 +133,8 @@ export default function TodoPage() {
             ))}
 
             {todos.length === 0 && (
-              <p className="text-gray-400 text-center mt-6">
-                No tasks yet. Add one above 
+              <p className="text-gray-400 text-center mt-6 text-sm sm:text-base">
+                No tasks yet. Add one above ✨
               </p>
             )}
           </ul>

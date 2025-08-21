@@ -1,3 +1,4 @@
+// src/pages/NotificationsPage.tsx
 import { useEffect, useState } from "react";
 import {
   collection,
@@ -64,27 +65,21 @@ export default function NotificationsPage() {
 
     await updateDoc(ref, { readBy: newReadBy });
 
-    // Optimistic UI update
     setNotifications((prev) =>
       prev.map((n) => (n.id === id ? { ...n, readBy: newReadBy } : n))
     );
   };
 
-  // ✅ New toggle for all
   const toggleAll = async () => {
     if (!user) return;
-
     const allRead = notifications.every((n) => n.readBy?.includes(user.uid));
 
     const updates = notifications.map(async (notif) => {
       const ref = doc(db, "notifications", notif.id);
-
       if (allRead) {
-        // Mark all as unread
         const newReadBy = (notif.readBy || []).filter((uid) => uid !== user.uid);
         await updateDoc(ref, { readBy: newReadBy });
       } else {
-        // Mark all as read
         if (!notif.readBy?.includes(user.uid)) {
           const newReadBy = [...(notif.readBy || []), user.uid];
           await updateDoc(ref, { readBy: newReadBy });
@@ -106,16 +101,16 @@ export default function NotificationsPage() {
       <Sidebar />
 
       {/* Main content */}
-      <main className="flex-1 p-6 overflow-y-auto">
+      <main className="flex-1 p-4 sm:p-6 overflow-y-auto">
         {/* Page Title */}
-        <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-bold flex items-center gap-2">
-            <Bell className="w-6 h-6 text-white" /> Notifications
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
+          <h1 className="text-xl sm:text-2xl font-bold flex items-center gap-2">
+            <Bell className="w-5 h-5 sm:w-6 sm:h-6 text-white" /> Notifications
           </h1>
           {notifications.length > 0 && (
             <button
               onClick={toggleAll}
-              className="inline-flex items-center px-3 py-1 text-sm font-medium rounded-lg border border-gray-600 bg-background text-gray-300 hover:text-white hover:border-gray-400 transition"
+              className="w-full sm:w-auto inline-flex items-center justify-center px-3 py-1.5 text-sm font-medium rounded-lg border border-gray-600 bg-background text-gray-300 hover:text-white hover:border-gray-400 transition"
             >
               {allRead ? "Mark all as unread" : "Mark all as read"}
             </button>
@@ -132,20 +127,17 @@ export default function NotificationsPage() {
               return (
                 <div
                   key={notif.id}
-                  className={`p-4 rounded-xl border transition-all duration-300 relative shadow-md flex justify-between items-start
+                  className={`p-4 rounded-xl border transition-all duration-300 relative shadow-md flex flex-col sm:flex-row sm:items-start justify-between gap-3
                     ${
                       isUnread
                         ? "border-red-500/70 bg-[#1a1a1a] shadow-red-500/30 animate-glow"
                         : "border-gray-700 bg-[#1e1e1e] hover:bg-[#2a2a2a]"
                     }`}
                 >
-                  {/* Left: Content (clickable link) */}
-                  <Link
-                    to={`/notifications/${notif.id}`}
-                    className="flex-1 pr-3"
-                  >
+                  {/* Left: Content */}
+                  <Link to={`/notifications/${notif.id}`} className="flex-1">
                     <div className="flex justify-between items-center">
-                      <h2 className="font-semibold text-lg">
+                      <h2 className="font-semibold text-base sm:text-lg">
                         {notif.title ?? "Untitled"}
                       </h2>
                       {isUnread && (
@@ -167,7 +159,7 @@ export default function NotificationsPage() {
                   {/* Right: Toggle button */}
                   <button
                     onClick={() => toggleRead(notif.id, notif)}
-                    className="ml-2 text-xs px-2 py-1 border border-gray-600 rounded-md text-gray-300 hover:text-white hover:border-gray-400 transition"
+                    className="self-end sm:self-center text-xs px-2 py-1 border border-gray-600 rounded-md text-gray-300 hover:text-white hover:border-gray-400 transition"
                   >
                     {isUnread ? "Mark as read" : "Mark as unread"}
                   </button>

@@ -98,35 +98,40 @@ export default function FeedbackPage() {
 
   return (
     <div className="flex min-h-screen bg-[#121212] text-white">
-      {/* Sidebar */}
-      <Sidebar />
+      {/* Sidebar (hidden on small screens, visible on md+) */}
+      <div className="hidden md:block">
+        <Sidebar />
+      </div>
 
       {/* Main content */}
-      <main className="flex-1 p-6 overflow-y-auto">
+      <main className="flex-1 p-4 sm:p-6 md:p-8 overflow-y-auto">
         {/* Page Title */}
-        <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-bold flex items-center gap-2">
-            <Star className="w-6 h-6 text-yellow-400" /> Feedback & Ratings
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-2">
+          <h1 className="text-xl sm:text-2xl font-bold flex items-center gap-2">
+            <Star className="w-5 h-5 sm:w-6 sm:h-6 text-yellow-400" /> Feedback
+            & Ratings
           </h1>
           {feedbacks.length > 0 && (
-            <span className="text-sm text-gray-400">
+            <span className="text-xs sm:text-sm text-gray-400">
               {feedbacks.length} feedback(s)
             </span>
           )}
         </div>
 
         {/* Average rating */}
-        <div className="mb-8 bg-[#1e1e1e] p-6 rounded-xl shadow-md border border-gray-700">
-          <h2 className="text-xl font-semibold mb-3">Average Rating</h2>
+        <div className="mb-6 sm:mb-8 bg-[#1e1e1e] p-4 sm:p-6 rounded-xl shadow-md border border-gray-700">
+          <h2 className="text-lg sm:text-xl font-semibold mb-3">
+            Average Rating
+          </h2>
           <div className="flex items-center gap-2">
-            <span className="text-2xl font-bold text-yellow-400">
+            <span className="text-xl sm:text-2xl font-bold text-yellow-400">
               {avgRating.toFixed(1)}
             </span>
             <div className="flex">
               {Array.from({ length: 5 }).map((_, i) => (
                 <Star
                   key={i}
-                  size={20}
+                  size={18}
                   className={`${
                     i < Math.round(avgRating)
                       ? "text-yellow-400 fill-yellow-400"
@@ -141,9 +146,9 @@ export default function FeedbackPage() {
         {/* Feedback form */}
         <form
           onSubmit={handleSubmit}
-          className="mb-10 bg-[#1e1e1e] p-6 rounded-xl shadow-md border border-gray-700"
+          className="mb-8 sm:mb-10 bg-[#1e1e1e] p-4 sm:p-6 rounded-xl shadow-md border border-gray-700"
         >
-          <h2 className="text-xl font-semibold mb-4">
+          <h2 className="text-lg sm:text-xl font-semibold mb-4">
             {editing ? "Edit Your Feedback" : "Leave Feedback"}
           </h2>
           <div className="flex gap-2 mb-4">
@@ -159,7 +164,7 @@ export default function FeedbackPage() {
                 }`}
               >
                 <Star
-                  size={28}
+                  size={24}
                   className={i < rating ? "fill-yellow-400" : ""}
                 />
               </button>
@@ -169,12 +174,12 @@ export default function FeedbackPage() {
             value={comment}
             onChange={(e) => setComment(e.target.value)}
             placeholder="Write your feedback..."
-            className="w-full p-3 rounded-lg bg-[#2a2a2a] border border-gray-600 text-white focus:ring-2 focus:ring-blue-500 mb-4"
+            className="w-full p-2 sm:p-3 rounded-lg bg-[#2a2a2a] border border-gray-600 text-white focus:ring-2 focus:ring-blue-500 mb-4 text-sm sm:text-base"
           />
-          <div className="flex gap-3">
+          <div className="flex flex-col sm:flex-row gap-3">
             <button
               type="submit"
-              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg shadow-md transition-all"
+              className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-4 sm:px-6 py-2 rounded-lg shadow-md transition-all text-sm sm:text-base"
             >
               {editing ? "Update" : "Submit"}
             </button>
@@ -182,7 +187,7 @@ export default function FeedbackPage() {
               <button
                 type="button"
                 onClick={handleDelete}
-                className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg shadow-md transition-all flex items-center gap-1"
+                className="flex-1 bg-red-600 hover:bg-red-700 text-white px-4 sm:px-6 py-2 rounded-lg shadow-md transition-all flex items-center justify-center gap-1 text-sm sm:text-base"
               >
                 <Trash2 size={16} /> Delete
               </button>
@@ -192,21 +197,25 @@ export default function FeedbackPage() {
 
         {/* Feedback list */}
         <div className="space-y-4">
-          <h2 className="text-xl font-semibold mb-2">User Feedback</h2>
+          <h2 className="text-lg sm:text-xl font-semibold mb-2">
+            User Feedback
+          </h2>
           {feedbacks.length === 0 ? (
-            <p className="text-gray-400">No feedback yet.</p>
+            <p className="text-gray-400 text-sm sm:text-base">
+              No feedback yet.
+            </p>
           ) : (
             feedbacks.map((f) => (
               <div
                 key={f.id}
-                className="p-4 bg-[#1a1a1a] rounded-xl border border-gray-700 shadow-md"
+                className="p-3 sm:p-4 bg-[#1a1a1a] rounded-xl border border-gray-700 shadow-md"
               >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2 mb-1">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                  <div className="flex items-center gap-2 mb-2 sm:mb-0">
                     {Array.from({ length: 5 }).map((_, i) => (
                       <Star
                         key={i}
-                        size={16}
+                        size={14}
                         className={`${
                           i < f.rating
                             ? "text-yellow-400 fill-yellow-400"
@@ -219,20 +228,22 @@ export default function FeedbackPage() {
                     <div className="flex gap-2">
                       <button
                         onClick={() => handleEdit(f)}
-                        className="text-blue-400 hover:text-blue-500 flex items-center gap-1 text-sm"
+                        className="text-blue-400 hover:text-blue-500 flex items-center gap-1 text-xs sm:text-sm"
                       >
                         <Edit size={14} /> Edit
                       </button>
                       <button
                         onClick={handleDelete}
-                        className="text-red-400 hover:text-red-500 flex items-center gap-1 text-sm"
+                        className="text-red-400 hover:text-red-500 flex items-center gap-1 text-xs sm:text-sm"
                       >
                         <Trash2 size={14} /> Delete
                       </button>
                     </div>
                   )}
                 </div>
-                <p className="text-gray-300">{f.comment || "No comment"}</p>
+                <p className="text-gray-300 text-sm sm:text-base">
+                  {f.comment || "No comment"}
+                </p>
                 <p className="text-xs text-gray-500 mt-2">
                   {f.createdAt
                     ? f.createdAt.toDate().toLocaleString()

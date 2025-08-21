@@ -1,3 +1,4 @@
+// src/pages/Profile.tsx
 import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import { updateProfile } from "firebase/auth";
@@ -14,14 +15,14 @@ export default function Profile() {
   const [preview, setPreview] = useState(user?.photoURL || "");
   const navigate = useNavigate();
 
-  // 🚀 Redirect admins straight to dashboard
+  // 🚀 Redirect admins to dashboard
   useEffect(() => {
     if (user?.isAdmin) {
       navigate("/admin");
     }
   }, [user, navigate]);
 
-  // ✅ Update profile info + avatar
+  // ✅ Upload avatar + update Firebase profile
   const handleUpload = async () => {
     try {
       let uploadedUrl = preview;
@@ -55,9 +56,7 @@ export default function Profile() {
     }
   };
 
-  if (user?.isAdmin) {
-    return null;
-  }
+  if (user?.isAdmin) return null;
 
   // ✨ Fallbacks
   const displayName =
@@ -66,7 +65,7 @@ export default function Profile() {
 
   return (
     <div className="flex min-h-screen bg-gradient-to-br from-black via-[#1a1a1a] to-[#2b2b2b] text-white">
-      {/* Sidebar (hidden on small screens, visible on md+) */}
+      {/* Sidebar (hidden on mobile, visible on md+) */}
       <div className="hidden md:block">
         <Sidebar />
       </div>
@@ -77,22 +76,25 @@ export default function Profile() {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="w-full max-w-md sm:max-w-lg md:max-w-xl bg-[#1a1110]/90 backdrop-blur-lg 
-                     rounded-2xl shadow-2xl border border-[#242124] p-6 sm:p-8 flex flex-col items-center"
+          className="w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl bg-[#1a1110]/90 
+                     backdrop-blur-lg rounded-2xl shadow-2xl border border-[#242124] 
+                     p-5 sm:p-6 md:p-8 flex flex-col items-center"
         >
           {/* Avatar */}
           {preview ? (
             <img
               src={preview}
               alt="Avatar"
-              className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-full border-4 
-                         border-[#353839] shadow-lg mb-4 object-cover"
+              className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 
+                         rounded-full border-4 border-[#353839] shadow-lg mb-4 object-cover"
             />
           ) : (
             <div
-              className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-full border-4 border-[#353839] 
-                         shadow-lg mb-4 flex items-center justify-center bg-gradient-to-br 
-                         from-blue-500 to-purple-600 text-white text-3xl sm:text-4xl md:text-5xl font-bold"
+              className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 
+                         rounded-full border-4 border-[#353839] shadow-lg mb-4 flex 
+                         items-center justify-center bg-gradient-to-br 
+                         from-blue-500 to-purple-600 text-white 
+                         text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold"
             >
               {avatarInitial}
             </div>
@@ -101,8 +103,10 @@ export default function Profile() {
           {/* Name Input */}
           <input
             type="text"
-            className="w-full p-2 sm:p-3 rounded-lg bg-[#242124] text-white placeholder-gray-400 
-                      focus:outline-none focus:ring-2 focus:ring-[#353839] transition mb-3 text-sm sm:text-base"
+            className="w-full p-2 sm:p-3 rounded-lg bg-[#242124] text-white 
+                      placeholder-gray-400 focus:outline-none focus:ring-2 
+                      focus:ring-[#353839] transition mb-3 
+                      text-sm sm:text-base md:text-lg"
             placeholder="Your name"
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -113,22 +117,23 @@ export default function Profile() {
             type="file"
             accept="image/*"
             onChange={(e) => setAvatar(e.target.files?.[0] || null)}
-            className="mb-4 w-full text-xs sm:text-sm text-gray-400"
+            className="mb-4 w-full text-xs sm:text-sm md:text-base text-gray-400"
           />
 
-          {/* Save Profile */}
+          {/* Save Profile Button */}
           <motion.button
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
             onClick={handleUpload}
-            className="w-full flex items-center justify-center gap-2 bg-gradient-to-r 
-                       from-[#242124] to-[#353839] text-white px-3 sm:px-4 py-2 sm:py-3 
-                       rounded-lg shadow-md transition text-sm sm:text-base"
+            className="w-full flex items-center justify-center gap-2 
+                       bg-gradient-to-r from-[#242124] to-[#353839] text-white 
+                       px-3 sm:px-4 py-2 sm:py-3 rounded-lg shadow-md 
+                       transition text-sm sm:text-base md:text-lg"
           >
             <Save size={18} /> Save Profile
           </motion.button>
 
-          <p className="text-xs sm:text-sm text-gray-400 mt-6 text-center">
+          <p className="text-xs sm:text-sm md:text-base text-gray-400 mt-6 text-center">
             Logged in as <span className="font-semibold">{user?.email}</span>
           </p>
         </motion.div>

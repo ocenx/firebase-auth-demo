@@ -1,3 +1,4 @@
+// src/pages/NotificationDetailPage.tsx
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
@@ -30,7 +31,7 @@ export default function NotificationDetailPage() {
         const data = snap.data();
         let readBy = data.readBy || [];
 
-        // If unread → mark as read instantly
+        // Mark as read if not already
         if (!readBy.includes(user.uid)) {
           readBy = [...readBy, user.uid];
           await updateDoc(ref, { readBy });
@@ -51,9 +52,9 @@ export default function NotificationDetailPage() {
 
   if (!notification) {
     return (
-      <div className="flex min-h-screen bg-background text-white">
+      <div className="flex min-h-screen bg-[#121212] text-white">
         <Sidebar />
-        <main className="flex-1 p-6">
+        <main className="flex-1 p-6 flex items-center justify-center">
           <p className="text-gray-400">Loading notification...</p>
         </main>
       </div>
@@ -61,39 +62,36 @@ export default function NotificationDetailPage() {
   }
 
   return (
-    <div className="flex min-h-screen bg-background text-white">
-      {/* Sidebar */}
+    <div className="flex min-h-screen bg-[#121212] text-white">
+      {/* Sidebar (hidden on small screens, slide-in on larger) */}
       <Sidebar />
 
       {/* Main Content */}
-      <main className="flex-1 p-6 overflow-y-auto">
-        {/* Header with Back button */}
-        <div className="flex items-center gap-4 mb-6">
+      <main className="flex-1 p-4 sm:p-6 overflow-y-auto">
+        {/* Back button */}
+        <div className="flex items-center gap-3 mb-6">
           <button
             onClick={() => navigate("/notifications")}
-            className="flex items-center gap-2 text-gray-300 hover:text-white transition"
+            className="flex items-center gap-2 text-sm sm:text-base text-gray-300 hover:text-white transition"
           >
-            <ArrowLeft className="w-5 h-5" /> Back to Notifications
+            <ArrowLeft className="w-5 h-5" /> Back
           </button>
         </div>
 
         {/* Page Title */}
-        <h1 className="text-2xl font-bold flex items-center gap-2 mb-6">
+        <h1 className="text-xl sm:text-2xl font-bold flex items-center gap-2 mb-6">
           <Bell className="w-6 h-6 text-white" /> Notification Details
         </h1>
 
         {/* Notification Card */}
-        <div
-          className={`p-6 rounded-lg shadow-lg relative transition border 
-            border-gray-700 bg-[#1e1e1e] hover:bg-[#2a2a2a]`}
-        >
-          <h2 className="text-xl font-semibold mb-2">
+        <div className="p-4 sm:p-6 rounded-xl shadow-lg border border-gray-700 bg-[#1e1e1e] hover:bg-[#2a2a2a] transition">
+          <h2 className="text-lg sm:text-xl font-semibold mb-2">
             {notification.title ?? "Untitled"}
           </h2>
-          <p className="text-gray-300 mb-4">
+          <p className="text-gray-300 mb-4 text-sm sm:text-base">
             {notification.message ?? "No message available"}
           </p>
-          <p className="text-sm text-gray-500">
+          <p className="text-xs sm:text-sm text-gray-500">
             {notification.createdAt
               ? notification.createdAt.toDate().toLocaleString()
               : "Just now"}

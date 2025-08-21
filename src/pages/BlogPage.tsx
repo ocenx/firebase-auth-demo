@@ -74,16 +74,17 @@ const BlogPage: React.FC = () => {
       <Sidebar />
 
       {/* Main content */}
-      <main className="flex-1 p-10 overflow-y-auto">
+      <main className="flex-1 p-4 sm:p-6 md:p-10 overflow-y-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="max-w-4xl mx-auto bg-[#1a1110]/90 backdrop-blur-lg rounded-2xl shadow-2xl border border-[#242124] p-8"
+          className="max-w-4xl mx-auto bg-[#1a1110]/90 backdrop-blur-lg rounded-2xl shadow-2xl border border-[#242124] p-4 sm:p-6 md:p-8"
         >
           {/* Page Title */}
-          <h1 className="text-2xl font-bold mb-6 flex items-center gap-2 text-white">
-            <NotebookPen className="w-6 h-6 text-white" /> Blog Posts
+          <h1 className="text-xl sm:text-2xl font-bold mb-6 flex items-center gap-2 text-white">
+            <NotebookPen className="w-5 h-5 sm:w-6 sm:h-6 text-white" /> Blog
+            Posts
           </h1>
 
           {/* Post Form */}
@@ -93,22 +94,23 @@ const BlogPage: React.FC = () => {
               className="mb-8 space-y-4 bg-[#242124]/60 p-4 rounded-xl border border-[#242124]"
             >
               <input
-                className="w-full border border-gray-600 bg-[#1a1a1a] text-white p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full border border-gray-600 bg-[#1a1a1a] text-white p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
                 placeholder="Title"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 required
               />
               <textarea
-                className="w-full border border-gray-600 bg-[#1a1a1a] text-white p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full border border-gray-600 bg-[#1a1a1a] text-white p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
                 placeholder="Content"
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
+                rows={4}
                 required
               />
               <button
                 type="submit"
-                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition"
+                className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition text-sm sm:text-base"
               >
                 {editingId ? "Update Post" : "Create Post"}
               </button>
@@ -123,13 +125,15 @@ const BlogPage: React.FC = () => {
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3 }}
-                className="p-6 border border-[#242124] rounded-xl shadow-md bg-[#242124]/60"
+                className="p-4 sm:p-6 border border-[#242124] rounded-xl shadow-md bg-[#242124]/60"
               >
-                <h2 className="font-bold text-xl text-white mb-2">
+                <h2 className="font-bold text-lg sm:text-xl text-white mb-2 break-words">
                   {post.title}
                 </h2>
-                <p className="text-gray-300">{post.content}</p>
-                <p className="text-xs text-gray-500 mt-3">
+                <p className="text-gray-300 text-sm sm:text-base whitespace-pre-wrap break-words">
+                  {post.content}
+                </p>
+                <p className="text-xs sm:text-sm text-gray-500 mt-3">
                   By: {post.authorEmail ?? "Unknown"}{" "}
                   {user?.uid === post.authorId && (
                     <span className="text-green-400 font-semibold">(You)</span>
@@ -138,6 +142,11 @@ const BlogPage: React.FC = () => {
                 </p>
               </motion.div>
             ))}
+            {posts.length === 0 && (
+              <p className="text-gray-500 text-center text-sm sm:text-base">
+                No posts yet...
+              </p>
+            )}
           </div>
         </motion.div>
       </main>

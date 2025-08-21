@@ -41,17 +41,17 @@ export default function Signup() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-black via-[#1a1a1a] to-[#2b2b2b] text-white">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-black via-[#1a1a1a] to-[#2b2b2b] text-white px-4">
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="w-full max-w-md bg-[#1a1110]/95 backdrop-blur-lg p-8 rounded-2xl shadow-2xl border border-[#242124]"
+        className="w-full max-w-md bg-[#1a1110]/95 backdrop-blur-lg p-6 sm:p-8 rounded-2xl shadow-2xl border border-[#242124]"
       >
-        <h1 className="text-2xl font-semibold text-center mb-1 text-gray-300">
+        <h1 className="text-2xl sm:text-3xl font-semibold text-center mb-1 text-gray-300">
           Welcome to My App
         </h1>
-        <p className="text-sm text-center text-gray-500 mb-5">
+        <p className="text-xs sm:text-sm text-center text-gray-500 mb-5">
           Create your account to get started
         </p>
 
@@ -65,11 +65,12 @@ export default function Signup() {
           </motion.p>
         )}
 
-        <form onSubmit={handleSignup} className="flex flex-col space-y-4">
+        <form onSubmit={handleSignup} className="flex flex-col space-y-3 sm:space-y-4">
           <input
             type="email"
             placeholder="Email"
-            className="p-3 rounded-lg bg-[#242124] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#353839] transition"
+            className="p-3 rounded-lg bg-[#242124] text-white placeholder-gray-400 
+                       focus:outline-none focus:ring-2 focus:ring-[#353839] transition text-sm sm:text-base"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -77,7 +78,8 @@ export default function Signup() {
           <input
             type="password"
             placeholder="Password"
-            className="p-3 rounded-lg bg-[#242124] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#353839] transition"
+            className="p-3 rounded-lg bg-[#242124] text-white placeholder-gray-400 
+                       focus:outline-none focus:ring-2 focus:ring-[#353839] transition text-sm sm:text-base"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -85,7 +87,8 @@ export default function Signup() {
           <input
             type="password"
             placeholder="Confirm Password"
-            className="p-3 rounded-lg bg-[#242124] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#353839] transition"
+            className="p-3 rounded-lg bg-[#242124] text-white placeholder-gray-400 
+                       focus:outline-none focus:ring-2 focus:ring-[#353839] transition text-sm sm:text-base"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
@@ -97,7 +100,7 @@ export default function Signup() {
             }}
             whileTap={{ scale: 0.97 }}
             type="submit"
-            className="bg-gradient-to-r from-[#242124] to-[#353839] text-white p-3 rounded-lg shadow-md transition"
+            className="bg-gradient-to-r from-[#242124] to-[#353839] text-white p-3 rounded-lg shadow-md transition text-sm sm:text-base"
           >
             Sign Up
           </motion.button>
@@ -115,13 +118,13 @@ export default function Signup() {
           className="relative w-full mt-4 flex items-center justify-center gap-2 
                      p-3 rounded-lg shadow-md 
                      bg-gradient-to-r from-[#4285F4]/80 via-[#DB4437]/80 to-[#F4B400]/80 
-                     hover:opacity-90 transition text-white font-medium"
+                     hover:opacity-90 transition text-white font-medium text-sm sm:text-base"
         >
           <span className="bg-white rounded-full p-1">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 48 48"
-              className="w-5 h-5"
+              className="w-4 h-4 sm:w-5 sm:h-5"
             >
               <path
                 fill="#4285F4"
@@ -144,7 +147,7 @@ export default function Signup() {
           Sign up with Google
         </motion.button>
 
-        <p className="mt-6 text-sm text-gray-400 text-center">
+        <p className="mt-6 text-xs sm:text-sm text-gray-400 text-center">
           Already have an account?{" "}
           <Link to="/login" className="text-[#808080] hover:underline">
             Log in

@@ -56,7 +56,7 @@ export default function FavoritesPage() {
     return (
       <div className="flex min-h-screen bg-gradient-to-br from-black via-[#1a1a1a] to-[#2b2b2b] text-white">
         <Sidebar />
-        <main className="flex-1 p-10">
+        <main className="flex-1 p-4 sm:p-8">
           <p className="text-red-500">Please log in to view your favorites.</p>
         </main>
       </div>
@@ -65,31 +65,31 @@ export default function FavoritesPage() {
 
   return (
     <div className="flex min-h-screen bg-gradient-to-br from-black via-[#1a1a1a] to-[#2b2b2b] text-white">
-      {/* Sidebar (consistent design) */}
+      {/* Sidebar */}
       <Sidebar />
 
       {/* Main content */}
-      <main className="flex-1 p-10 overflow-y-auto">
+      <main className="flex-1 p-4 sm:p-8 overflow-y-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="max-w-6xl mx-auto bg-[#1a1110]/90 backdrop-blur-lg rounded-2xl shadow-2xl border border-[#242124] p-8"
+          className="w-full max-w-6xl mx-auto bg-[#1a1110]/90 backdrop-blur-lg rounded-2xl shadow-2xl border border-[#242124] p-6 sm:p-8"
         >
           {/* Page Title */}
-          <h1 className="text-2xl font-bold mb-6 flex items-center gap-2 text-white">
-            <Heart className="w-6 h-6 text-red-500" /> My Favorites
+          <h1 className="text-xl sm:text-2xl font-bold mb-6 flex items-center gap-2 text-white">
+            <Heart className="w-5 h-5 sm:w-6 sm:h-6 text-red-500" /> My Favorites
           </h1>
 
           {/* Skeleton Loader */}
           {loading ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
               {[...Array(6)].map((_, i) => (
                 <div
                   key={i}
-                  className="p-4 border border-[#242124] rounded-xl shadow-md bg-[#242124]/60 min-h-[320px] animate-pulse flex flex-col"
+                  className="p-4 border border-[#242124] rounded-xl shadow-md bg-[#242124]/60 min-h-[280px] sm:min-h-[320px] animate-pulse flex flex-col"
                 >
-                  <div className="w-full h-40 bg-gray-700 rounded-lg" />
+                  <div className="w-full h-32 sm:h-40 bg-gray-700 rounded-lg" />
                   <div className="mt-3 space-y-2 flex-1">
                     <div className="h-5 bg-gray-700 rounded w-3/4" />
                     <div className="h-4 bg-gray-700 rounded w-1/2" />
@@ -103,7 +103,7 @@ export default function FavoritesPage() {
               You don’t have any favorites yet.
             </p>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
               <AnimatePresence>
                 {favorites.map((p) => (
                   <motion.div
@@ -112,26 +112,26 @@ export default function FavoritesPage() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20 }}
                     transition={{ duration: 0.3 }}
-                    className="relative group p-4 border border-[#242124] rounded-xl shadow-md bg-[#242124]/60 hover:border-gray-600 transition flex flex-col justify-between min-h-[320px]"
+                    className="relative group p-4 border border-[#242124] rounded-xl shadow-md bg-[#242124]/60 hover:border-gray-600 transition flex flex-col justify-between min-h-[280px] sm:min-h-[320px]"
                   >
                     {/* Product image */}
                     {p.imageUrl && (
                       <img
                         src={p.imageUrl}
                         alt={p.name}
-                        className="w-full h-40 object-cover rounded-lg"
+                        className="w-full h-32 sm:h-40 object-cover rounded-lg"
                       />
                     )}
 
                     {/* Product info */}
                     <div className="mt-3 flex-1 flex flex-col">
-                      <h3 className="font-bold text-lg text-white group-hover:text-red-400 transition line-clamp-1">
+                      <h3 className="font-bold text-base sm:text-lg text-white group-hover:text-red-400 transition line-clamp-1">
                         {p.name}
                       </h3>
-                      <p className="text-gray-400 text-sm line-clamp-2">
+                      <p className="text-gray-400 text-xs sm:text-sm line-clamp-2">
                         {p.description}
                       </p>
-                      <p className="font-semibold text-green-400 mt-auto">
+                      <p className="font-semibold text-green-400 mt-auto text-sm sm:text-base">
                         ${p.price}
                       </p>
                     </div>
@@ -139,9 +139,9 @@ export default function FavoritesPage() {
                     {/* Remove favorite button */}
                     <button
                       onClick={() => removeFavorite(p.id)}
-                      className="absolute top-3 right-3 p-2 rounded-full bg-red-500 hover:bg-red-600 text-white transition"
+                      className="absolute top-3 right-3 p-1.5 sm:p-2 rounded-full bg-red-500 hover:bg-red-600 text-white transition"
                     >
-                      <Heart size={18} className="fill-current text-white" />
+                      <Heart size={16} className="sm:size-18 fill-current text-white" />
                     </button>
                   </motion.div>
                 ))}

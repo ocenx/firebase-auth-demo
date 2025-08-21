@@ -1,4 +1,3 @@
-
 // src/pages/ChatPage.tsx
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -64,26 +63,28 @@ export default function ChatPage() {
 
   return (
     <div className="flex h-screen bg-gradient-to-br from-black via-[#1a1a1a] to-[#2b2b2b] text-white">
-      {/* Sidebar */}
-      <Sidebar />
+      {/* Sidebar - hidden on small screens */}
+      <div className="hidden md:block">
+        <Sidebar />
+      </div>
 
       {/* Main Chat Section */}
-      <main className="flex-1 flex flex-col p-6 min-h-0">
+      <main className="flex-1 flex flex-col p-3 sm:p-6 min-h-0">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="flex items-center gap-2 mb-6"
+          className="flex items-center gap-2 mb-4 sm:mb-6"
         >
-          <MessageSquare className="w-6 h-6 text-gray-300" />
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-gray-200 to-gray-400 bg-clip-text text-transparent">
+          <MessageSquare className="w-5 h-5 sm:w-6 sm:h-6 text-gray-300" />
+          <h1 className="text-lg sm:text-2xl font-bold bg-gradient-to-r from-gray-200 to-gray-400 bg-clip-text text-transparent">
             Chat {roomId && ` - ${roomId}`}
           </h1>
         </motion.div>
 
         {/* Messages */}
-        <div className="flex-1 min-h-0 overflow-y-auto space-y-4 p-4 bg-[#1a1110]/80 rounded-2xl border border-[#242124] shadow-lg">
+        <div className="flex-1 min-h-0 overflow-y-auto space-y-3 sm:space-y-4 p-3 sm:p-4 bg-[#1a1110]/80 rounded-2xl border border-[#242124] shadow-lg">
           {messages.map((msg) => {
             const isOwnMessage = msg.uid === user?.uid;
             const initials = msg.displayName
@@ -95,13 +96,13 @@ export default function ChatPage() {
                 key={msg.id}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className={`flex items-start gap-3 ${
+                className={`flex items-start gap-2 sm:gap-3 ${
                   isOwnMessage ? "justify-end" : "justify-start"
                 }`}
               >
                 {/* Avatar (left if not own, right if own) */}
                 {!isOwnMessage && (
-                  <div className="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center text-sm font-bold text-gray-200 overflow-hidden">
+                  <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-gray-700 flex items-center justify-center text-xs sm:text-sm font-bold text-gray-200 overflow-hidden">
                     {msg.photoURL ? (
                       <img
                         src={msg.photoURL}
@@ -116,13 +117,13 @@ export default function ChatPage() {
 
                 {/* Message bubble */}
                 <div
-                  className={`max-w-xs p-3 rounded-2xl shadow-md ${
+                  className={`max-w-[75%] sm:max-w-xs p-2 sm:p-3 rounded-2xl shadow-md break-words ${
                     isOwnMessage
                       ? "bg-gradient-to-r from-blue-600 to-blue-500 text-white"
                       : "bg-[#242124]/70 text-gray-200"
                   }`}
                 >
-                  <p className="text-xs font-semibold mb-1">
+                  <p className="text-[10px] sm:text-xs font-semibold mb-1">
                     {msg.displayName}
                   </p>
                   <p className="text-sm">{msg.text}</p>
@@ -130,7 +131,7 @@ export default function ChatPage() {
 
                 {/* Avatar on right for own message */}
                 {isOwnMessage && (
-                  <div className="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center text-sm font-bold text-gray-200 overflow-hidden">
+                  <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-gray-700 flex items-center justify-center text-xs sm:text-sm font-bold text-gray-200 overflow-hidden">
                     {msg.photoURL ? (
                       <img
                         src={msg.photoURL}
@@ -147,7 +148,9 @@ export default function ChatPage() {
           })}
 
           {messages.length === 0 && (
-            <p className="text-gray-500 text-center">No messages yet...</p>
+            <p className="text-gray-500 text-center text-sm sm:text-base">
+              No messages yet...
+            </p>
           )}
 
           {/* 🔽 Invisible div to scroll into view */}
@@ -157,13 +160,13 @@ export default function ChatPage() {
         {/* Input Box */}
         <form
           onSubmit={sendMessage}
-          className="mt-4 flex items-center gap-3 bg-[#1a1110]/90 p-3 rounded-2xl border border-[#242124]"
+          className="mt-3 sm:mt-4 flex items-center gap-2 sm:gap-3 bg-[#1a1110]/90 p-2 sm:p-3 rounded-2xl border border-[#242124]"
         >
           <input
             type="text"
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
-            className="flex-1 bg-transparent border-none outline-none text-white placeholder-gray-400"
+            className="flex-1 bg-transparent border-none outline-none text-white placeholder-gray-400 text-sm sm:text-base"
             placeholder={`Message ${
               roomId ? "in room " + roomId : "everyone"
             }...`}
@@ -173,13 +176,12 @@ export default function ChatPage() {
             whileTap={{ scale: 0.95 }}
             type="submit"
             disabled={!newMessage.trim()}
-            className="p-2 rounded-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 shadow-lg disabled:opacity-50 transition"
+            className="p-2 sm:p-3 rounded-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 shadow-lg disabled:opacity-50 transition"
           >
-            <Send className="w-5 h-5 text-white" />
+            <Send className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
           </motion.button>
         </form>
       </main>
     </div>
   );
 }
- 

@@ -10,7 +10,7 @@ import {
 import { db } from "../firebase";
 import { useAuth } from "../context/AuthContext";
 import { motion } from "framer-motion";
-import { CalendarDays, Calendar, Users } from "lucide-react"; // ✅ Lucide icons
+import { CalendarDays, Calendar, Users } from "lucide-react";
 import Sidebar from "../components/Sidebar";
 
 export default function EventsPage() {
@@ -105,12 +105,12 @@ export default function EventsPage() {
   };
 
   return (
-    <div className="flex h-screen bg-gradient-to-br from-black via-[#1a1a1a] to-[#2b2b2b] text-white">
+    <div className="flex min-h-screen bg-gradient-to-br from-black via-[#1a1a1a] to-[#2b2b2b] text-white">
       {/* Sidebar */}
       <Sidebar />
 
       {/* Main Section */}
-      <main className="flex-1 flex flex-col p-6 overflow-y-auto">
+      <main className="flex-1 flex flex-col p-4 md:p-6 overflow-y-auto">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -119,7 +119,7 @@ export default function EventsPage() {
           className="flex items-center gap-2 mb-6"
         >
           <CalendarDays className="w-6 h-6 text-gray-300" />
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-gray-200 to-gray-400 bg-clip-text text-transparent">
+          <h1 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-gray-200 to-gray-400 bg-clip-text text-transparent">
             Events
           </h1>
         </motion.div>
@@ -131,20 +131,22 @@ export default function EventsPage() {
               key={ev.id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="p-5 rounded-2xl bg-[#1a1110]/80 border border-[#242124] shadow-lg flex flex-col md:flex-row md:items-center justify-between gap-4"
+              className="p-4 md:p-5 rounded-2xl bg-[#1a1110]/80 border border-[#242124] shadow-lg flex flex-col md:flex-row md:items-center justify-between gap-4"
             >
               {/* Event Info */}
-              <div>
-                <h2 className="text-lg font-semibold text-gray-100">
+              <div className="flex-1">
+                <h2 className="text-base md:text-lg font-semibold text-gray-100">
                   {ev.title}
                 </h2>
-                <p className="text-gray-400">{ev.description}</p>
-                <div className="flex items-center gap-4 mt-2">
-                  <span className="flex items-center gap-1 text-sm text-gray-500">
+                <p className="text-sm md:text-base text-gray-400">
+                  {ev.description}
+                </p>
+                <div className="flex flex-wrap items-center gap-3 mt-2">
+                  <span className="flex items-center gap-1 text-xs md:text-sm text-gray-500">
                     <Calendar className="w-4 h-4" /> {ev.date}
                   </span>
                   <span
-                    className={`flex items-center gap-1 px-2 py-1 text-xs rounded-full font-medium ${
+                    className={`flex items-center gap-1 px-2 py-1 text-xs md:text-sm rounded-full font-medium ${
                       ev.slots > 0
                         ? "bg-green-600/80 text-white"
                         : "bg-red-600/80 text-white"
@@ -163,7 +165,7 @@ export default function EventsPage() {
                     whileTap={{ scale: 0.95 }}
                     onClick={() => handleBook(ev.id)}
                     disabled={ev.slots <= 0}
-                    className={`px-4 py-2 rounded-lg text-white shadow-md transition ${
+                    className={`px-3 md:px-4 py-2 rounded-lg text-sm md:text-base text-white shadow-md transition ${
                       ev.slots <= 0
                         ? "bg-gray-600 cursor-not-allowed"
                         : "bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400"
@@ -176,7 +178,7 @@ export default function EventsPage() {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => handleCancel(ev.id)}
-                    className="px-4 py-2 rounded-lg bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white shadow-md"
+                    className="px-3 md:px-4 py-2 rounded-lg text-sm md:text-base bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white shadow-md"
                   >
                     Cancel
                   </motion.button>
@@ -186,7 +188,7 @@ export default function EventsPage() {
           ))}
 
           {events.length === 0 && (
-            <p className="text-gray-500 text-center">
+            <p className="text-gray-500 text-center text-sm md:text-base">
               No events available right now...
             </p>
           )}

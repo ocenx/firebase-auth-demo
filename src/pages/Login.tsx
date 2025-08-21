@@ -34,17 +34,17 @@ export default function Login() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-black via-[#1a1a1a] to-[#2b2b2b] text-white">
+    <div className="flex items-center justify-center min-h-screen px-4 bg-gradient-to-br from-black via-[#1a1a1a] to-[#2b2b2b] text-white">
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="w-full max-w-md bg-[#1a1110]/95 backdrop-blur-lg p-8 rounded-2xl shadow-2xl border border-[#242124]"
+        className="w-full max-w-sm sm:max-w-md bg-[#1a1110]/95 backdrop-blur-lg p-6 sm:p-8 rounded-2xl shadow-2xl border border-[#242124]"
       >
-        <h1 className="text-2xl font-semibold text-center mb-1 text-gray-300">
+        <h1 className="text-xl sm:text-2xl font-semibold text-center mb-1 text-gray-200">
           Welcome Back
         </h1>
-        <p className="text-sm text-center text-gray-500 mb-5">
+        <p className="text-xs sm:text-sm text-center text-gray-400 mb-5">
           Log in to continue to your dashboard
         </p>
 
@@ -58,11 +58,12 @@ export default function Login() {
           </motion.p>
         )}
 
-        <form onSubmit={handleEmailLogin} className="flex flex-col space-y-4">
+        {/* Email/Password Form */}
+        <form onSubmit={handleEmailLogin} className="flex flex-col space-y-3 sm:space-y-4">
           <input
             type="email"
             placeholder="Email"
-            className="p-3 rounded-lg bg-[#242124] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#353839] transition"
+            className="p-3 rounded-lg bg-[#242124] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#353839] transition text-sm sm:text-base"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -70,19 +71,19 @@ export default function Login() {
           <input
             type="password"
             placeholder="Password"
-            className="p-3 rounded-lg bg-[#242124] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#353839] transition"
+            className="p-3 rounded-lg bg-[#242124] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#353839] transition text-sm sm:text-base"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
           <motion.button
             whileHover={{
-              scale: 1.05,
-              boxShadow: "0 0 20px rgba(66, 133, 244, 0.6)",
+              scale: 1.03,
+              boxShadow: "0 0 15px rgba(66, 133, 244, 0.6)",
             }}
             whileTap={{ scale: 0.97 }}
             type="submit"
-            className="bg-gradient-to-r from-[#242124] to-[#353839] text-white p-3 rounded-lg shadow-md transition"
+            className="bg-gradient-to-r from-[#242124] to-[#353839] text-white py-3 rounded-lg shadow-md transition text-sm sm:text-base font-medium"
           >
             Login
           </motion.button>
@@ -91,22 +92,22 @@ export default function Login() {
         {/* Google Button */}
         <motion.button
           whileHover={{
-            scale: 1.05,
+            scale: 1.03,
             boxShadow:
-              "0 0 20px rgba(66,133,244,0.6), 0 0 40px rgba(219,68,55,0.5), 0 0 60px rgba(244,180,0,0.5), 0 0 80px rgba(15,157,88,0.5)",
+              "0 0 15px rgba(66,133,244,0.6), 0 0 25px rgba(219,68,55,0.5), 0 0 35px rgba(244,180,0,0.5), 0 0 45px rgba(15,157,88,0.5)",
           }}
           whileTap={{ scale: 0.97 }}
           onClick={handleGoogleLogin}
-          className="relative w-full mt-4 flex items-center justify-center gap-2 
-                     p-3 rounded-lg shadow-md 
+          className="relative w-full mt-3 sm:mt-4 flex items-center justify-center gap-2 
+                     py-3 rounded-lg shadow-md 
                      bg-gradient-to-r from-[#4285F4]/80 via-[#DB4437]/80 to-[#F4B400]/80 
-                     hover:opacity-90 transition text-white font-medium"
+                     hover:opacity-90 transition text-white text-sm sm:text-base font-medium"
         >
-          <span className="bg-white rounded-full p-1">
+          <span className="bg-white rounded-full p-1 flex items-center justify-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 48 48"
-              className="w-5 h-5"
+              className="w-4 h-4 sm:w-5 sm:h-5"
             >
               <path
                 fill="#4285F4"
@@ -129,7 +130,7 @@ export default function Login() {
           Continue with Google
         </motion.button>
 
-        <p className="mt-6 text-sm text-gray-400 text-center">
+        <p className="mt-5 sm:mt-6 text-xs sm:text-sm text-gray-400 text-center">
           Don’t have an account?{" "}
           <Link to="/signup" className="text-[#808080] hover:underline">
             Sign up
