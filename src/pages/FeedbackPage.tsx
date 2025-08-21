@@ -1,0 +1,250 @@
+import { useEffect, useState } from "react";
+import {
+  collection,
+  doc,
+  setDoc,
+  onSnapshot,
+  query,
+  orderBy,
+  updateDoc,
+  deleteDoc,
+} from "firebase/firestore";
+import { db } from "../firebase";
+import { useAuth } from "../context/AuthContext";
+import { Star, Trash2, Edit } from "lucide-react";
+import Sidebar from "../components/Sidebar";
+
+type Feedback = {
+  id: string;
+  userId?: string;
+  rating: number;
+  comment?: string;
+  createdAt?: { toDate: () => Date };
+};
+
+export default function FeedbackPage() {
+  const { user } = useAuth();
+  const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState("");
+  const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
+  const [avgRating, setAvgRating] = useState(0);
+  const [editing, setEditing] = useState(false);
+
+  // 🔄 Fetch feedbacks in realtime
+  useEffect(() => {
+    const q = query(collection(db, "feedback"), orderBy("createdAt", "desc"));
+    const unsub = onSnapshot(q, (snap) => {
+      const list: Feedback[] = [];
+      snap.forEach((docSnap) => {
+        const data = docSnap.data();
+        list.push({
+          id: docSnap.id,
+          userId: data.userId,
+          rating: data.rating,
+          comment: data.comment,
+          createdAt: data.createdAt,
+        });
+      });
+      setFeedbacks(list);
+
+      if (list.length > 0) {
+        const avg =
+          list.reduce((sum, f) => sum + (f.rating || 0), 0) / list.length;
+        setAvgRating(avg);
+      } else {
+        setAvgRating(0);
+      }
+    });
+
+    return () => unsub();
+  }, []);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!rating || !user?.uid) return;
+
+    const ref = doc(db, "feedback", user.uid);
+
+    if (editing) {
+      await updateDoc(ref, { rating, comment });
+      setEditing(false);
+    } else {
+      await setDoc(ref, {
+        userId: user.uid,
+        rating,
+        comment,
+        createdAt: new Date(),
+      });
+    }
+
+    setRating(0);
+    setComment("");
+  };
+
+  const handleEdit = (f: Feedback) => {
+    setRating(f.rating);
+    setComment(f.comment || "");
+    setEditing(true);
+  };
+
+  const handleDelete = async () => {
+    if (!user?.uid) return;
+    await deleteDoc(doc(db, "feedback", user.uid));
+    setRating(0);
+    setComment("");
+    setEditing(false);
+  };
+
+  const myFeedback = feedbacks.find((f) => f.userId === user?.uid);
+
+  return (
+    <div className="flex min-h-screen bg-[#121212] text-white">
+      {/* Sidebar */}
+      <Sidebar />
+
+      {/* Main content */}
+      <main className="flex-1 p-6 overflow-y-auto">
+        {/* Page Title */}
+        <div className="flex items-center justify-between mb-6">
+          <h1 className="text-2xl font-bold flex items-center gap-2">
+            <Star className="w-6 h-6 text-yellow-400" /> Feedback & Ratings
+          </h1>
+          {feedbacks.length > 0 && (
+            <span className="text-sm text-gray-400">
+              {feedbacks.length} feedback(s)
+            </span>
+          )}
+        </div>
+
+        {/* Average rating */}
+        <div className="mb-8 bg-[#1e1e1e] p-6 rounded-xl shadow-md border border-gray-700">
+          <h2 className="text-xl font-semibold mb-3">Average Rating</h2>
+          <div className="flex items-center gap-2">
+            <span className="text-2xl font-bold text-yellow-400">
+              {avgRating.toFixed(1)}
+            </span>
+            <div className="flex">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <Star
+                  key={i}
+                  size={20}
+                  className={`${
+                    i < Math.round(avgRating)
+                      ? "text-yellow-400 fill-yellow-400"
+                      : "text-gray-600"
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Feedback form */}
+        <form
+          onSubmit={handleSubmit}
+          className="mb-10 bg-[#1e1e1e] p-6 rounded-xl shadow-md border border-gray-700"
+        >
+          <h2 className="text-xl font-semibold mb-4">
+            {editing ? "Edit Your Feedback" : "Leave Feedback"}
+          </h2>
+          <div className="flex gap-2 mb-4">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <button
+                type="button"
+                key={i}
+                onClick={() => setRating(i + 1)}
+                className={`transition-colors ${
+                  i < rating
+                    ? "text-yellow-400"
+                    : "text-gray-500 hover:text-yellow-300"
+                }`}
+              >
+                <Star
+                  size={28}
+                  className={i < rating ? "fill-yellow-400" : ""}
+                />
+              </button>
+            ))}
+          </div>
+          <textarea
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+            placeholder="Write your feedback..."
+            className="w-full p-3 rounded-lg bg-[#2a2a2a] border border-gray-600 text-white focus:ring-2 focus:ring-blue-500 mb-4"
+          />
+          <div className="flex gap-3">
+            <button
+              type="submit"
+              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg shadow-md transition-all"
+            >
+              {editing ? "Update" : "Submit"}
+            </button>
+            {editing && (
+              <button
+                type="button"
+                onClick={handleDelete}
+                className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg shadow-md transition-all flex items-center gap-1"
+              >
+                <Trash2 size={16} /> Delete
+              </button>
+            )}
+          </div>
+        </form>
+
+        {/* Feedback list */}
+        <div className="space-y-4">
+          <h2 className="text-xl font-semibold mb-2">User Feedback</h2>
+          {feedbacks.length === 0 ? (
+            <p className="text-gray-400">No feedback yet.</p>
+          ) : (
+            feedbacks.map((f) => (
+              <div
+                key={f.id}
+                className="p-4 bg-[#1a1a1a] rounded-xl border border-gray-700 shadow-md"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2 mb-1">
+                    {Array.from({ length: 5 }).map((_, i) => (
+                      <Star
+                        key={i}
+                        size={16}
+                        className={`${
+                          i < f.rating
+                            ? "text-yellow-400 fill-yellow-400"
+                            : "text-gray-600"
+                        }`}
+                      />
+                    ))}
+                  </div>
+                  {user?.uid === f.userId && (
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => handleEdit(f)}
+                        className="text-blue-400 hover:text-blue-500 flex items-center gap-1 text-sm"
+                      >
+                        <Edit size={14} /> Edit
+                      </button>
+                      <button
+                        onClick={handleDelete}
+                        className="text-red-400 hover:text-red-500 flex items-center gap-1 text-sm"
+                      >
+                        <Trash2 size={14} /> Delete
+                      </button>
+                    </div>
+                  )}
+                </div>
+                <p className="text-gray-300">{f.comment || "No comment"}</p>
+                <p className="text-xs text-gray-500 mt-2">
+                  {f.createdAt
+                    ? f.createdAt.toDate().toLocaleString()
+                    : "Just now"}
+                </p>
+              </div>
+            ))
+          )}
+        </div>
+      </main>
+    </div>
+  );
+}
+    
